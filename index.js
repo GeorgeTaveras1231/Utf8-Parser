@@ -49,8 +49,6 @@ export default {
   },
 
   *getCodePoints(binary) {
-    let currentCodePoint = 0;
-
     for (let i = 0; i < binary.length; i++) {
       const byte = binary[i];
       const leadingBits = this.getLeadingBitsCount(byte);
