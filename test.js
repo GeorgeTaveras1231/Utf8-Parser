@@ -16,7 +16,7 @@ describe('Utf8Parser', () => {
 
     it('parses utf8 codepoints', () => {
       const result = Array.from(Utf8Parser.getCodePoints(buffer));
-      // Compare results against node's own ut8-parser
+      // Compare results against node's own utf-8 parser
       expect(result).toEqual(buffer.toString('utf-8').split('').map((char) => char.charCodeAt(0)));
     });
   });
