@@ -19,14 +19,6 @@ const createByte = {
   }
 };
 
-const T = {
-  ONE_LEADING_BITS: createByte.withLeadingBits(1),
-  TWO_LEADING_BITS: createByte.withLeadingBits(2),
-  THREE_LEADING_BITS: createByte.withLeadingBits(3),
-  FOUR_LEADING_BITS: createByte.withLeadingBits(4),
-  FIVE_LEADING_BITS: createByte.withLeadingBits(5),
-}
-
 export default {
   stripLeadingBits(byte, numOfLeadingBits) {
     const withTrailingBits = createByte.withTrailingBits(BYTE_SIZE - 1 - numOfLeadingBits);
@@ -47,24 +39,10 @@ export default {
   },
 
   getLeadingBitsCount(byte) {
-    if ((byte & T.FIVE_LEADING_BITS) === T.FOUR_LEADING_BITS) {
-      return 4;
-    }
-
-    if ((byte & T.FOUR_LEADING_BITS) === T.THREE_LEADING_BITS) {
-      return 3;
-    }
-
-    if ((byte & T.THREE_LEADING_BITS) === T.TWO_LEADING_BITS) {
-      return 2;
-    }
-
-    if ((byte & T.TWO_LEADING_BITS) === T.ONE_LEADING_BITS) {
-      return 1;
-    }
-
-    if ((byte & T.ONE_LEADING_BITS) === 0) {
-      return 0;
+    for (let i = 5; i > 0; i--) {
+      if ((byte & createByte.withLeadingBits(i)) === createByte.withLeadingBits(i - 1)) {
+        return i - 1;
+      }
     }
 
     throw new Error('Invalid byte. It should have 0-4 leading bits');
